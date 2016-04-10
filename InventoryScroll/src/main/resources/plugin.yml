@@ -1,0 +1,4 @@
+name: InventoryScroll
+main: org.inventivetalent.inventoryscroll.InventoryScroll
+author: inventivetalent
+version: ${project.version}

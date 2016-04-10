@@ -1,0 +1,5 @@
+# Skip empty inventory slots and go directly to the next available item
+skipEmpty: true
+
+# Scroll all Hotbar items, instead of only the selected
+scrollAll: true
