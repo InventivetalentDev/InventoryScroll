@@ -45,6 +45,10 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 			return;
 		}
 
+		InventoryScrollEvent inventoryScrollEvent = new InventoryScrollEvent(event.getPlayer(), event.getPreviousSlot(), event.getNewSlot());
+		Bukkit.getPluginManager().callEvent(inventoryScrollEvent);
+		if (inventoryScrollEvent.isCancelled()) { return; }
+
 		final Player player = event.getPlayer();
 		if (player.isSneaking()) {
 			int from = event.getPreviousSlot();
