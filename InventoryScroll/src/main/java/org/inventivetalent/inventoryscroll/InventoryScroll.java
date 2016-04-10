@@ -41,6 +41,9 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 		if (event.isCancelled()) {
 			return;
 		}
+		if (!event.getPlayer().hasPermission("inventoryscroll.use")) {
+			return;
+		}
 
 		final Player player = event.getPlayer();
 		if (player.isSneaking()) {
