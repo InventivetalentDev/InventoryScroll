@@ -38,6 +38,9 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 			scrollTimeout.remove(event.getPlayer().getUniqueId());
 			return;
 		}
+		if (event.isCancelled()) {
+			return;
+		}
 
 		final Player player = event.getPlayer();
 		if (player.isSneaking()) {
