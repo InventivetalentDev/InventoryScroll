@@ -12,6 +12,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.pluginannotations.PluginAnnotations;
 import org.inventivetalent.pluginannotations.config.ConfigValue;
+import org.mcstats.MetricsLite;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +31,14 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 
 		saveDefaultConfig();
 		PluginAnnotations.CONFIG.loadValues(this, this);
+
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			if (metrics.start()) {
+				getLogger().info("Metrics started");
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	@EventHandler
