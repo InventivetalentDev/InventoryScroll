@@ -3,3 +3,6 @@ skipEmpty: true
 
 # Scroll all Hotbar items, instead of only the selected
 scrollAll: true
+
+# Instead of holding shift to scroll the rows, automatically scroll to the next row when reaching the start/end of the hotbar (scrollAll should be enabled)
+continuousScrolling: false

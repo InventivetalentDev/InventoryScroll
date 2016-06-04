@@ -22,8 +22,9 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 
 	Set<UUID> scrollTimeout = new HashSet<>();
 
-	@ConfigValue(path = "skipEmpty") boolean skipEmpty;
-	@ConfigValue(path = "scrollAll") boolean scrollAll;
+	@ConfigValue(path = "skipEmpty")        boolean skipEmpty;
+	@ConfigValue(path = "scrollAll")        boolean scrollAll;
+	@ConfigValue(path = "continuousScroll") boolean continuousScroll;
 
 	@Override
 	public void onEnable() {
@@ -59,12 +60,19 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 		if (inventoryScrollEvent.isCancelled()) { return; }
 
 		final Player player = event.getPlayer();
-		if (player.isSneaking()) {
-			int from = event.getPreviousSlot();
-			int to = event.getNewSlot();
-			if (from == 8 && to == 0) { to = 9; }
-			if (from == 0 && to == 8) { to = -1; }
+		int from = event.getPreviousSlot();
+		int to = event.getNewSlot();
 
+		boolean isOnStartOrEnd = false;
+		if (from == 8 && to == 0) {
+			to = 9;
+			isOnStartOrEnd = true;
+		}
+		if (from == 0 && to == 8) {
+			to = -1;
+			isOnStartOrEnd = true;
+		}
+		if (player.isSneaking() || (continuousScroll && isOnStartOrEnd)) {
 			PlayerInventory inventory = player.getInventory();
 
 			if (scrollAll) {
@@ -84,10 +92,12 @@ public class InventoryScroll extends JavaPlugin implements Listener {
 				}
 			}
 
-			//Cancelling the event would reset the item and mess up our modification, so only reset the selected slot
-			//But setting the slot will call the event again...
-			scrollTimeout.add(player.getUniqueId());
-			inventory.setHeldItemSlot(from);
+			if (!(continuousScroll && isOnStartOrEnd)) {
+				//Cancelling the event would reset the item and mess up our modification, so only reset the selected slot
+				//But setting the slot will call the event again...
+				scrollTimeout.add(player.getUniqueId());
+				inventory.setHeldItemSlot(from);
+			}
 		}
 	}
 
